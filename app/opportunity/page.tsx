@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import OpportunityForm from './OpportunityForm'
+export const dynamic = 'force-dynamic'
 
 import PublicHeader from '../(public)/PublicHeader'
 
