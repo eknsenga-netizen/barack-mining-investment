@@ -8,10 +8,21 @@ import { usePathname } from 'next/navigation'
 
 import {
   ArrowRight,
+  ChevronDown,
+  Compass,
+  Factory,
+  Handshake,
   LockKeyhole,
+  Map,
   Menu,
+  Mountain,
   X,
+  Zap,
 } from 'lucide-react'
+
+/* =========================================================
+   NAVIGATION PRINCIPALE
+========================================================= */
 
 const NAVIGATION = [
   {
@@ -48,6 +59,56 @@ const NAVIGATION = [
   },
 ]
 
+/* =========================================================
+   SOUS-MENU ACTIVITÉS
+   IMPORTANT :
+   Les routes correspondent exactement à celles
+   actuellement présentes dans ton projet.
+========================================================= */
+
+const ACTIVITIES = [
+  {
+    number: '01',
+    label: 'Prospection & Exploration',
+    shortLabel: 'Prospection & Exploration',
+    description:
+      'Identifier les zones à potentiel et approfondir progressivement la connaissance des ressources.',
+    href: '/activities/prospecting',
+    icon: Compass,
+  },
+  {
+    number: '02',
+    label: 'Opérations minières',
+    shortLabel: 'Opérations minières',
+    description:
+      'Coordonner les activités opérationnelles, les flux et les informations nécessaires au suivi des opérations.',
+    href: '/activities/operations',
+    icon: Factory,
+  },
+  {
+    number: '03',
+    label: 'Vente & Approvisionnement minéral',
+    shortLabel: 'Approvisionnement minéral',
+    description:
+      'Faciliter les connexions entre ressources, fournisseurs, acheteurs et opportunités commerciales.',
+    href: '/activities/supply',
+    icon: Zap,
+  },
+  {
+    number: '04',
+    label: 'Accompagnement des projets & investisseurs',
+    shortLabel: 'Projets & investisseurs',
+    description:
+      'Accompagner les projets, investisseurs et partenaires dans leurs démarches et opportunités.',
+    href: '/activities/support',
+    icon: Handshake,
+  },
+]
+
+/* =========================================================
+   ACTIVE PATH
+========================================================= */
+
 function isActivePath(
   pathname: string,
   href: string
@@ -62,6 +123,10 @@ function isActivePath(
   )
 }
 
+/* =========================================================
+   HEADER PUBLIC
+========================================================= */
+
 export default function PublicHeader() {
   const pathname = usePathname()
 
@@ -69,6 +134,12 @@ export default function PublicHeader() {
     useState(false)
 
   const [scrolled, setScrolled] =
+    useState(false)
+
+  const [activitiesOpen, setActivitiesOpen] =
+    useState(false)
+
+  const [mobileActivitiesOpen, setMobileActivitiesOpen] =
     useState(false)
 
   /* =========================================================
@@ -97,15 +168,17 @@ export default function PublicHeader() {
   }, [])
 
   /* =========================================================
-     CLOSE MOBILE MENU ON ROUTE CHANGE
+     CLOSE MENUS ON ROUTE CHANGE
   ========================================================= */
 
   useEffect(() => {
     setMobileOpen(false)
+    setActivitiesOpen(false)
+    setMobileActivitiesOpen(false)
   }, [pathname])
 
   /* =========================================================
-     MOBILE BODY LOCK + ESCAPE
+     MOBILE BODY LOCK + ESC
   ========================================================= */
 
   useEffect(() => {
@@ -124,6 +197,8 @@ export default function PublicHeader() {
     ) => {
       if (event.key === 'Escape') {
         setMobileOpen(false)
+        setActivitiesOpen(false)
+        setMobileActivitiesOpen(false)
       }
     }
 
@@ -145,9 +220,6 @@ export default function PublicHeader() {
 
   /* =========================================================
      LOGIN = PRIVATE AREA
-     
-     Le header public ne doit jamais apparaître sur
-     l'espace de connexion réservé aux agents.
   ========================================================= */
 
   if (pathname === '/login') {
@@ -165,6 +237,12 @@ export default function PublicHeader() {
   const hoverColor = scrolled
     ? 'hover:text-[#0A0C0B]'
     : 'hover:text-white'
+
+  const activitiesActive =
+    isActivePath(
+      pathname,
+      '/activities'
+    )
 
   return (
     <>
@@ -249,11 +327,285 @@ export default function PublicHeader() {
 
               {NAVIGATION.map(
                 (item) => {
+
                   const active =
                     isActivePath(
                       pathname,
                       item.href
                     )
+
+                  /* =================================================
+                     ACTIVITÉS
+                  ================================================= */
+
+                  if (item.href === '/activities') {
+                    return (
+                      <li
+                        key={item.href}
+                        className="relative"
+                        onMouseEnter={() =>
+                          setActivitiesOpen(true)
+                        }
+                        onMouseLeave={() =>
+                          setActivitiesOpen(false)
+                        }
+                      >
+
+                        {/* TRIGGER */}
+
+                        <Link
+                          href="/activities"
+                          aria-current={
+                            active
+                              ? 'page'
+                              : undefined
+                          }
+                          onFocus={() =>
+                            setActivitiesOpen(true)
+                          }
+                          className={`group relative inline-flex items-center gap-1.5 px-3.5 py-2.5 text-[13px] font-medium transition-colors duration-300 ${
+                            active
+                              ? textColor
+                              : mutedColor
+                          } ${hoverColor}`}
+                        >
+
+                          <span className="relative">
+
+                            Activités
+
+                            {/* ACTIVE */}
+
+                            <span
+                              aria-hidden="true"
+                              className={`absolute -bottom-[7px] left-1/2 h-[2px] -translate-x-1/2 rounded-full bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] transition-all duration-300 ${
+                                active
+                                  ? 'w-[22px] opacity-100 shadow-[0_0_10px_rgba(207,169,95,0.45)]'
+                                  : 'w-0 opacity-0'
+                              }`}
+                            />
+
+                            {/* HOVER */}
+
+                            <span
+                              aria-hidden="true"
+                              className={`absolute -bottom-[7px] left-1/2 h-px -translate-x-1/2 rounded-full bg-[#C69B52] transition-all duration-300 ${
+                                active
+                                  ? 'w-0 opacity-0'
+                                  : 'w-0 opacity-0 group-hover:w-[18px] group-hover:opacity-100'
+                              }`}
+                            />
+
+                          </span>
+
+                          <ChevronDown
+                            size={13}
+                            strokeWidth={1.8}
+                            className={`transition-transform duration-300 ${
+                              activitiesOpen
+                                ? 'rotate-180 text-[#B8873F]'
+                                : ''
+                            }`}
+                          />
+
+                        </Link>
+
+                        {/* =================================================
+                            DROPDOWN
+                            Le pt-2 crée une zone de liaison invisible
+                            entre le bouton et le panneau afin d'éviter
+                            que le menu disparaisse lorsqu'on descend
+                            avec la souris.
+                        ================================================= */}
+
+                        <div
+                          className={`absolute left-1/2 top-full w-[700px] -translate-x-1/2 pt-2 transition-all duration-300 ${
+                            activitiesOpen
+                              ? 'visible translate-y-0 opacity-100'
+                              : 'invisible -translate-y-2 opacity-0'
+                          }`}
+                        >
+
+                          <div className="relative overflow-hidden rounded-[26px] border border-stone-200/80 bg-[#F8F7F3]/98 p-3 shadow-[0_28px_90px_rgba(15,23,42,0.16)] backdrop-blur-2xl">
+
+                            {/* =================================================
+                                GOLD TOP ACCENT
+                            ================================================= */}
+
+                            <div className="absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-[#D7B66C] to-transparent" />
+
+                            {/* =================================================
+                                INTRO DU MENU
+                            ================================================= */}
+
+                            <div className="flex items-center justify-between px-4 pb-3 pt-3">
+
+                              <div>
+                                <div className="flex items-center gap-2">
+
+                                  <span className="h-1.5 w-1.5 rounded-full bg-[#B8873F]" />
+
+                                  <p className="text-[9px] font-bold uppercase tracking-[0.26em] text-[#9B793E]">
+                                    Nos activités
+                                  </p>
+
+                                </div>
+
+                                <p className="mt-1.5 text-sm text-stone-500">
+                                  Quatre domaines pour intervenir à différents
+                                  niveaux de la chaîne de valeur minière.
+                                </p>
+                              </div>
+
+                              <div className="hidden h-11 w-11 items-center justify-center rounded-xl bg-[#0A0C0B] text-[#E1C487] shadow-[0_8px_20px_rgba(15,23,42,0.10)] sm:flex">
+                                <Map
+                                  size={18}
+                                  strokeWidth={1.7}
+                                />
+                              </div>
+
+                            </div>
+
+                            {/* =================================================
+                                4 ACTIVITÉS
+                            ================================================= */}
+
+                            <div className="grid grid-cols-2 gap-2.5">
+
+                              {ACTIVITIES.map(
+                                (activity) => {
+
+                                  const Icon =
+                                    activity.icon
+
+                                  const activityActive =
+                                    isActivePath(
+                                      pathname,
+                                      activity.href
+                                    )
+
+                                  return (
+                                    <Link
+                                      key={
+                                        activity.href
+                                      }
+                                      href={
+                                        activity.href
+                                      }
+                                      className={`group relative overflow-hidden rounded-[20px] border p-5 transition-all duration-300 ${
+                                        activityActive
+                                          ? 'border-[#D7B66C]/45 bg-white shadow-[0_12px_28px_rgba(15,23,42,0.07)]'
+                                          : 'border-stone-200/80 bg-white/70 hover:-translate-y-0.5 hover:border-[#D7B66C]/45 hover:bg-white hover:shadow-[0_15px_32px_rgba(15,23,42,0.08)]'
+                                      }`}
+                                    >
+
+                                      {/* LEFT RAIL */}
+
+                                      <span
+                                        aria-hidden="true"
+                                        className={`absolute inset-y-4 left-0 w-[2px] rounded-full bg-gradient-to-b from-[#B8873F] via-[#D7B66C] to-[#9D7230] transition-opacity duration-300 ${
+                                          activityActive
+                                            ? 'opacity-100'
+                                            : 'opacity-0 group-hover:opacity-100'
+                                        }`}
+                                      />
+
+                                      {/* SOFT GOLD GLOW */}
+
+                                      <span
+                                        aria-hidden="true"
+                                        className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[#D7B66C]/[0.08] blur-2xl transition-transform duration-500 group-hover:scale-150"
+                                      />
+
+                                      <div className="relative">
+
+                                        <div className="flex items-start justify-between gap-4">
+
+                                          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#0A0C0B] text-[#E1C487] shadow-[0_8px_18px_rgba(15,23,42,0.10)] transition-transform duration-300 group-hover:scale-105">
+                                            <Icon
+                                              size={18}
+                                              strokeWidth={1.7}
+                                            />
+                                          </div>
+
+                                          <span className="text-[8px] font-bold tracking-[0.2em] text-stone-300">
+                                            {
+                                              activity.number
+                                            }
+                                          </span>
+
+                                        </div>
+
+                                        <div className="mt-4">
+
+                                          <h3 className="text-sm font-semibold leading-5 tracking-[-0.02em] text-[#0A0C0B]">
+                                            {
+                                              activity.label
+                                            }
+                                          </h3>
+
+                                          <p className="mt-1.5 line-clamp-2 text-[11px] leading-5 text-stone-500">
+                                            {
+                                              activity.description
+                                            }
+                                          </p>
+
+                                        </div>
+
+                                        <div className="mt-4 flex items-center gap-2 text-[8px] font-bold uppercase tracking-[0.16em] text-[#B8873F] opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100">
+                                          Découvrir
+
+                                          <ArrowRight
+                                            size={11}
+                                            strokeWidth={1.8}
+                                          />
+                                        </div>
+
+                                      </div>
+
+                                    </Link>
+                                  )
+                                }
+                              )}
+
+                            </div>
+
+                            {/* =================================================
+                                FOOTER DROPDOWN
+                            ================================================= */}
+
+                            <div className="mt-3 flex items-center justify-between border-t border-stone-200/80 px-4 pb-1 pt-3">
+
+                              <span className="text-[8px] font-semibold uppercase tracking-[0.25em] text-stone-400">
+                                Barack Mining Investment
+                              </span>
+
+                              <Link
+                                href="/activities"
+                                className="group flex items-center gap-2 text-[8px] font-bold uppercase tracking-[0.16em] text-[#9B793E] transition-colors hover:text-[#B8873F]"
+                              >
+                                Voir toutes les activités
+
+                                <ArrowRight
+                                  size={11}
+                                  strokeWidth={1.8}
+                                  className="transition-transform duration-300 group-hover:translate-x-0.5"
+                                />
+                              </Link>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </li>
+                    )
+                  }
+
+                  /* =================================================
+                     NAVIGATION STANDARD
+                  ================================================= */
 
                   return (
                     <li
@@ -280,6 +632,7 @@ export default function PublicHeader() {
                           {item.label}
 
                           {/* ACTIVE */}
+
                           <span
                             aria-hidden="true"
                             className={`absolute -bottom-[7px] left-1/2 h-[2px] -translate-x-1/2 rounded-full bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] transition-all duration-300 ${
@@ -290,6 +643,7 @@ export default function PublicHeader() {
                           />
 
                           {/* HOVER */}
+
                           <span
                             aria-hidden="true"
                             className={`absolute -bottom-[7px] left-1/2 h-px -translate-x-1/2 rounded-full bg-[#C69B52] transition-all duration-300 ${
@@ -319,6 +673,7 @@ export default function PublicHeader() {
           <div className="hidden items-center gap-3 lg:flex">
 
             {/* ESPACE AGENTS */}
+
             <Link
               href="/login"
               className={`group inline-flex h-10 items-center justify-center gap-2 rounded-full border px-4 text-[11px] font-semibold transition-all duration-300 ${
@@ -346,12 +701,14 @@ export default function PublicHeader() {
             </Link>
 
             {/* CTA PUBLIC */}
+
             <Link
               href="/opportunity"
               className="group relative inline-flex h-11 items-center justify-center gap-2 overflow-hidden rounded-full border border-[#D7B66C]/70 bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] px-5 text-sm font-semibold text-[#15120C] shadow-[0_10px_30px_rgba(184,137,63,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105 hover:shadow-[0_14px_35px_rgba(184,137,63,0.25)]"
             >
 
               {/* REFLET */}
+
               <span className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-[420%]" />
 
               <span className="relative z-10">
@@ -465,11 +822,210 @@ export default function PublicHeader() {
 
               {NAVIGATION.map(
                 (item) => {
+
                   const active =
                     isActivePath(
                       pathname,
                       item.href
                     )
+
+                  /* =================================================
+                     MOBILE ACTIVITÉS
+                  ================================================= */
+
+                  if (item.href === '/activities') {
+                    return (
+                      <li key={item.href}>
+
+                        <div
+                          className={`overflow-hidden rounded-2xl border transition-all duration-300 ${
+                            active
+                              ? 'border-[#D7B66C]/30 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.05)]'
+                              : 'border-transparent'
+                          }`}
+                        >
+
+                          {/* MAIN ROW */}
+
+                          <div className="flex items-center">
+
+                            <Link
+                              href="/activities"
+                              className="group relative flex flex-1 items-center px-4 py-3.5 text-sm font-semibold text-stone-700 transition-colors hover:text-[#0A0C0B]"
+                            >
+
+                              {active && (
+                                <span
+                                  aria-hidden="true"
+                                  className="absolute inset-y-2 left-0 w-[3px] rounded-full bg-gradient-to-b from-[#B8873F] via-[#D7B66C] to-[#9D7230]"
+                                />
+                              )}
+
+                              <span className="flex items-center gap-3">
+
+                                {active && (
+                                  <span className="h-1.5 w-1.5 rounded-full bg-[#D7B66C]" />
+                                )}
+
+                                Activités
+
+                              </span>
+
+                            </Link>
+
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setMobileActivitiesOpen(
+                                  (current) =>
+                                    !current
+                                )
+                              }
+                              className="flex h-12 w-12 items-center justify-center text-stone-400 transition-colors hover:text-[#B8873F]"
+                              aria-label={
+                                mobileActivitiesOpen
+                                  ? 'Masquer les activités'
+                                  : 'Afficher les activités'
+                              }
+                              aria-expanded={
+                                mobileActivitiesOpen
+                              }
+                            >
+
+                              <ChevronDown
+                                size={17}
+                                strokeWidth={1.7}
+                                className={`transition-transform duration-300 ${
+                                  mobileActivitiesOpen
+                                    ? 'rotate-180 text-[#B8873F]'
+                                    : ''
+                                }`}
+                              />
+
+                            </button>
+
+                          </div>
+
+                          {/* MOBILE SUBMENU */}
+
+                          <div
+                            className={`grid transition-all duration-300 ${
+                              mobileActivitiesOpen
+                                ? 'grid-rows-[1fr] opacity-100'
+                                : 'grid-rows-[0fr] opacity-0'
+                            }`}
+                          >
+
+                            <div className="overflow-hidden">
+
+                              <div className="border-t border-stone-200/80 px-3 pb-3 pt-2">
+
+                                <div className="space-y-1">
+
+                                  {ACTIVITIES.map(
+                                    (activity) => {
+                                      const Icon =
+                                        activity.icon
+
+                                      const activeActivity =
+                                        isActivePath(
+                                          pathname,
+                                          activity.href
+                                        )
+
+                                      return (
+                                        <Link
+                                          key={
+                                            activity.href
+                                          }
+                                          href={
+                                            activity.href
+                                          }
+                                          className={`group flex items-center gap-3 rounded-xl border px-3 py-3 transition-all duration-300 ${
+                                            activeActivity
+                                              ? 'border-[#D7B66C]/30 bg-white'
+                                              : 'border-transparent hover:border-stone-200 hover:bg-white'
+                                          }`}
+                                        >
+
+                                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#0A0C0B] text-[#E1C487]">
+                                            <Icon
+                                              size={15}
+                                              strokeWidth={1.7}
+                                            />
+                                          </div>
+
+                                          <div className="min-w-0 flex-1">
+
+                                            <div className="flex items-center gap-2">
+
+                                              <span className="text-sm font-semibold text-[#0A0C0B]">
+                                                {
+                                                  activity.shortLabel
+                                                }
+                                              </span>
+
+                                              <span className="text-[8px] font-bold tracking-[0.16em] text-stone-300">
+                                                {
+                                                  activity.number
+                                                }
+                                              </span>
+
+                                            </div>
+
+                                            <p className="mt-0.5 text-[10px] leading-4 text-stone-400">
+                                              {
+                                                activity.description
+                                              }
+                                            </p>
+
+                                          </div>
+
+                                          <ArrowRight
+                                            size={
+                                              14
+                                            }
+                                            className={`shrink-0 transition-all duration-300 ${
+                                              activeActivity
+                                                ? 'text-[#B8873F]'
+                                                : 'text-stone-300 group-hover:translate-x-0.5 group-hover:text-[#B8873F]'
+                                            }`}
+                                          />
+
+                                        </Link>
+                                      )
+                                    }
+                                  )}
+
+                                </div>
+
+                                <Link
+                                  href="/activities"
+                                  className="mt-2 flex items-center justify-center gap-2 rounded-xl border border-stone-200 bg-[#FBFAF7] px-4 py-3 text-[9px] font-bold uppercase tracking-[0.16em] text-[#9B793E] transition-colors hover:border-[#D7B66C]/35 hover:bg-white hover:text-[#B8873F]"
+                                >
+                                  Voir toutes les activités
+
+                                  <ArrowRight
+                                    size={12}
+                                    strokeWidth={1.8}
+                                  />
+                                </Link>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </li>
+                    )
+                  }
+
+                  /* =================================================
+                     MOBILE NAV STANDARD
+                  ================================================= */
 
                   return (
                     <li
@@ -490,26 +1046,20 @@ export default function PublicHeader() {
                         }`}
                       >
 
-                        {/* GOLD RAIL */}
-                        <span
-                          aria-hidden="true"
-                          className={`absolute inset-y-2 left-0 w-[3px] rounded-full bg-gradient-to-b from-[#B8873F] via-[#D7B66C] to-[#9D7230] transition-all duration-300 ${
-                            active
-                              ? 'opacity-100'
-                              : 'opacity-0'
-                          }`}
-                        />
+                        {/* ACTIVE RAIL */}
+
+                        {active && (
+                          <span
+                            aria-hidden="true"
+                            className="absolute inset-y-2 left-0 w-[3px] rounded-full bg-gradient-to-b from-[#B8873F] via-[#D7B66C] to-[#9D7230]"
+                          />
+                        )}
 
                         <span className="flex items-center gap-3">
 
-                          <span
-                            aria-hidden="true"
-                            className={`h-1.5 w-1.5 rounded-full bg-[#D7B66C] transition-all duration-300 ${
-                              active
-                                ? 'scale-100 opacity-100'
-                                : 'scale-0 opacity-0'
-                            }`}
-                          />
+                          {active && (
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#D7B66C]" />
+                          )}
 
                           <span>
                             {item.label}
@@ -544,6 +1094,7 @@ export default function PublicHeader() {
           <div className="mt-6 space-y-3 border-t border-stone-200/80 pt-5">
 
             {/* ESPACE AGENTS */}
+
             <Link
               href="/login"
               className="group flex h-12 items-center justify-center gap-2 rounded-xl border border-[#C69B52]/30 bg-white px-5 text-sm font-semibold text-[#6F542C] shadow-[0_8px_24px_rgba(15,23,42,0.04)] transition-all duration-300 hover:border-[#B8873F]/50 hover:text-[#8C692E]"
@@ -561,6 +1112,7 @@ export default function PublicHeader() {
             </Link>
 
             {/* CTA */}
+
             <Link
               href="/opportunity"
               className="group flex h-12 items-center justify-center gap-2 rounded-xl border border-[#D7B66C]/60 bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] px-5 text-sm font-semibold text-[#15120C] shadow-[0_10px_26px_rgba(184,137,63,0.18)] transition-all duration-300 hover:brightness-105"
