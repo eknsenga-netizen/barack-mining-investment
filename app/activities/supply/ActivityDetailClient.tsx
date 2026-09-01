@@ -10,10 +10,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import {
+  ArrowDown,
   ArrowRight,
   ArrowUpRight,
   CheckCircle2,
-  CircleDot,
   ClipboardCheck,
   Diamond,
   FileCheck2,
@@ -26,6 +26,8 @@ import {
   Sparkles,
   Truck,
   Users,
+  Factory,
+  Globe2,
 } from 'lucide-react'
 
 /* =========================================================
@@ -36,7 +38,6 @@ const GOLD_LIGHT = '#E1C487'
 const GOLD = '#D7B66C'
 const GOLD_DEEP = '#B8873F'
 const GOLD_TEXT = '#9B793E'
-const GOLD_DARK = '#9D7230'
 
 /* =========================================================
    REVEAL
@@ -91,16 +92,231 @@ function Reveal({
 
 function SectionLabel({
   children,
+  light = false,
 }: {
   children: ReactNode
+  light?: boolean
 }) {
   return (
     <div className="inline-flex items-center gap-3">
-      <span className="h-px w-8 bg-gradient-to-r from-[#B8873F] to-[#E1C487]" />
+      <span
+        className={
+          light
+            ? 'h-px w-8 bg-gradient-to-r from-[#B8873F] to-[#E1C487]'
+            : 'h-px w-8 bg-gradient-to-r from-[#B8873F] to-[#E1C487]'
+        }
+      />
 
-      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#9B793E]">
+      <span
+        className={
+          light
+            ? 'text-[10px] font-bold uppercase tracking-[0.3em] text-[#E1C487]'
+            : 'text-[10px] font-bold uppercase tracking-[0.3em] text-[#9B793E]'
+        }
+      >
         {children}
       </span>
+    </div>
+  )
+}
+
+/* =========================================================
+   INTERNAL NAVIGATION
+========================================================= */
+
+function InternalNav() {
+  const items = [
+    {
+      href: '#circuits',
+      label: 'Deux circuits',
+    },
+    {
+      href: '#resources',
+      label: 'Ressources',
+    },
+    {
+      href: '#trading',
+      label: 'Trading',
+    },
+    {
+      href: '#value-chain',
+      label: 'Chaîne de valeur',
+    },
+    {
+      href: '#role',
+      label: 'Notre rôle',
+    },
+    {
+      href: '#logistics',
+      label: 'Flux',
+    },
+    {
+      href: '#opportunity',
+      label: 'Opportunité',
+    },
+  ]
+
+  return (
+    <div className="sticky top-[78px] z-30 border-b border-stone-200/70 bg-[#F5F3EE]/92 backdrop-blur-xl">
+      <div className="mx-auto max-w-7xl overflow-x-auto px-6 sm:px-8 lg:px-10">
+        <div className="flex min-w-max items-center gap-1 py-2.5">
+          {items.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="rounded-full px-4 py-2 text-[9px] font-semibold uppercase tracking-[0.18em] text-stone-500 transition-all duration-300 hover:bg-white hover:text-[#9B793E]"
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+function ProductCard({
+  number,
+  name,
+  category,
+  description,
+  icon: Icon,
+  dark = false,
+}: {
+  number: string
+  name: string
+  category: string
+  description: string
+  icon: React.ComponentType<{
+    size?: number
+    strokeWidth?: number
+    className?: string
+  }>
+  dark?: boolean
+}) {
+  return (
+    <div
+      className={
+        dark
+          ? 'group relative overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.045] p-6 transition-all duration-500 hover:-translate-y-1 hover:border-[#D7B66C]/35 hover:bg-white/[0.07] sm:p-7'
+          : 'group relative overflow-hidden rounded-[24px] border border-stone-200 bg-white p-6 shadow-[0_14px_35px_rgba(15,23,42,0.04)] transition-all duration-500 hover:-translate-y-1 hover:border-[#D7B66C]/35 hover:shadow-[0_24px_60px_rgba(184,137,63,0.10)] sm:p-7'
+      }
+    >
+      <div
+        className={
+          dark
+            ? 'absolute right-[-30px] top-[-30px] h-24 w-24 rounded-full bg-[#D7B66C]/[0.07] blur-2xl transition-transform duration-700 group-hover:scale-150'
+            : 'absolute right-[-30px] top-[-30px] h-24 w-24 rounded-full bg-[#D7B66C]/[0.07] blur-2xl transition-transform duration-700 group-hover:scale-150'
+        }
+      />
+
+      <div className="relative">
+        <div className="flex items-start justify-between gap-4">
+          <div
+            className={
+              dark
+                ? 'flex h-12 w-12 items-center justify-center rounded-2xl bg-[#E1C487]/[0.08] text-[#E1C487]'
+                : 'flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0A0C0B] text-[#E1C487]'
+            }
+          >
+            <Icon size={20} strokeWidth={1.7} />
+          </div>
+
+          <span
+            className={
+              dark
+                ? 'text-[9px] font-bold tracking-[0.2em] text-white/20'
+                : 'text-[9px] font-bold tracking-[0.2em] text-stone-300'
+            }
+          >
+            {number}
+          </span>
+        </div>
+
+        <p
+          className={
+            dark
+              ? 'mt-6 text-[9px] font-bold uppercase tracking-[0.2em] text-[#E1C487]/70'
+              : 'mt-6 text-[9px] font-bold uppercase tracking-[0.2em] text-[#9B793E]'
+          }
+        >
+          {category}
+        </p>
+
+        <h3
+          className={
+            dark
+              ? 'mt-2 text-xl font-semibold tracking-[-0.03em] text-white'
+              : 'mt-2 text-xl font-semibold tracking-[-0.03em] text-[#0A0C0B]'
+          }
+        >
+          {name}
+        </h3>
+
+        <p
+          className={
+            dark
+              ? 'mt-3 text-sm leading-6 text-white/45'
+              : 'mt-3 text-sm leading-6 text-stone-500'
+          }
+        >
+          {description}
+        </p>
+
+        <div
+          className={
+            dark
+              ? 'mt-7 h-px w-12 bg-gradient-to-r from-[#B8873F] to-transparent transition-all duration-500 group-hover:w-20'
+              : 'mt-7 h-px w-12 bg-gradient-to-r from-[#B8873F] to-transparent transition-all duration-500 group-hover:w-20'
+          }
+        />
+      </div>
+    </div>
+  )
+}
+
+/* =========================================================
+   PROCESS STEP
+========================================================= */
+
+function ProcessStep({
+  number,
+  title,
+  text,
+  icon: Icon,
+}: {
+  number: string
+  title: string
+  text: string
+  icon: React.ComponentType<{
+    size?: number
+    strokeWidth?: number
+    className?: string
+  }>
+}) {
+  return (
+    <div className="relative rounded-[22px] border border-stone-200 bg-white p-6 shadow-[0_12px_35px_rgba(15,23,42,0.04)]">
+      <div className="flex h-[66px] w-[66px] items-center justify-center rounded-full border border-[#C69B52]/25 bg-[#FBFAF7]">
+        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0A0C0B] text-[#E1C487]">
+          <Icon size={18} strokeWidth={1.7} />
+        </div>
+      </div>
+
+      <p className="mt-5 text-[9px] font-bold uppercase tracking-[0.2em] text-[#9B793E]">
+        {number}
+      </p>
+
+      <h3 className="mt-2 text-base font-semibold tracking-[-0.02em] text-[#0A0C0B]">
+        {title}
+      </h3>
+
+      <p className="mt-2 text-sm leading-6 text-stone-500">
+        {text}
+      </p>
     </div>
   )
 }
@@ -113,576 +329,482 @@ export default function ActivityDetailClient() {
   return (
     <div className="bg-[#F5F3EE] text-[#0A0C0B]">
 
-      {/* =========================================================
-          01 — INTRODUCTION / POSITIONNEMENT
-      ========================================================= */}
-
-      <section className="relative overflow-hidden py-20 sm:py-24 lg:py-28">
-
-        <div className="pointer-events-none absolute -right-24 top-8 h-96 w-96 rounded-full bg-[#C69B52]/[0.05] blur-3xl" />
-
-        <div className="pointer-events-none absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-[#E1C487]/[0.06] blur-3xl" />
-
-        <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
-
-          <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
-
-            {/* TITRE */}
-
-            <Reveal>
-
-              <div>
-
-                <SectionLabel>
-                  Positionnement
-                </SectionLabel>
-
-                <h2 className="mt-5 text-3xl font-semibold leading-[1.08] tracking-[-0.05em] sm:text-4xl lg:text-5xl">
-
-                  Relier les ressources
-
-                  <br />
-
-                  <span className="bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9B7334] bg-clip-text text-transparent">
-                    aux opportunités
-                  </span>
-
-                </h2>
-
-                <div className="mt-7 h-px w-20 bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-transparent" />
-
-                <p className="mt-6 max-w-md text-sm leading-7 text-stone-500">
-                  Une approche structurée de l’approvisionnement minéral,
-                  conçue pour faciliter les échanges entre détenteurs de
-                  ressources, fournisseurs et entreprises à la recherche
-                  d’opportunités d’approvisionnement.
-                </p>
-
-              </div>
-
-            </Reveal>
-
-            {/* TEXTE */}
-
-            <Reveal delay={0.08}>
-
-              <div>
-
-                <p className="text-base leading-8 text-stone-600">
-                  L’approvisionnement minéral constitue un maillon important
-                  de la chaîne de valeur. Il ne s’agit pas uniquement de
-                  proposer une ressource, mais aussi de disposer des
-                  informations nécessaires pour comprendre une opportunité,
-                  identifier les interlocuteurs pertinents et structurer les
-                  échanges.
-                </p>
-
-                <p className="mt-5 text-base leading-8 text-stone-600">
-                  Chez{' '}
-                  <strong className="font-semibold text-[#0A0C0B]">
-                    Barack Mining Investment
-                  </strong>
-                  , nous facilitons la mise en relation et la coordination
-                  autour d’opportunités d’approvisionnement, avec une attention
-                  particulière portée aux informations disponibles, à la
-                  traçabilité et au contexte commercial de chaque opération.
-                </p>
-
-                <div className="relative mt-8 overflow-hidden rounded-[22px] border border-[#C69B52]/18 bg-white p-5 shadow-[0_18px_45px_rgba(15,23,42,0.05)] sm:p-6">
-
-                  <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#D7B66C]/70 to-transparent" />
-
-                  <div className="flex items-start gap-4">
-
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0A0C0B] text-[#E1C487]">
-                      <Handshake
-                        size={20}
-                        strokeWidth={1.7}
-                      />
-                    </div>
-
-                    <div>
-
-                      <p className="text-[9px] font-bold uppercase tracking-[0.20em] text-[#9B793E]">
-                        Principe BMI
-                      </p>
-
-                      <p className="mt-1 text-sm leading-6 text-stone-600">
-                        Faciliter une relation commerciale plus claire entre
-                        l’offre disponible et les besoins identifiés.
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </Reveal>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* =========================================================
-          02 — MISE EN RELATION COMMERCIALE
-      ========================================================= */}
-
-      <section className="relative overflow-hidden border-y border-stone-200/70 bg-white py-20 sm:py-24 lg:py-28">
-
-        <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-[#D7B66C]/[0.045] blur-3xl" />
-
-        <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
-
-          <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
-
-            {/* IMAGE */}
-
-            <Reveal>
-
-              <div className="relative">
-
-                <div className="absolute -inset-4 rounded-[34px] border border-[#C69B52]/12" />
-
-                <div className="absolute -inset-1 rounded-[30px] border border-[#D7B66C]/15" />
-
-                <div className="relative min-h-[420px] overflow-hidden rounded-[28px] bg-[#0A0C0B] shadow-[0_30px_80px_rgba(15,23,42,0.13)] sm:min-h-[500px]">
-
-                  <Image
-                    src="/images/supply-commercial.jpg"
-                    alt="Mise en relation commerciale autour d'une opportunité d'approvisionnement minéral"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 55vw"
-                    className="object-cover transition-transform duration-700 hover:scale-[1.035]"
-                  />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#080A09]/90 via-[#080A09]/15 to-transparent" />
-
-                  <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#D7B66C]/65 to-transparent" />
-
-                  <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-7">
-
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.25em] text-[#E1C487]/70">
-                      Mise en relation
-                    </p>
-
-                    <p className="mt-2 max-w-md text-lg font-semibold tracking-[-0.02em] text-white">
-                      Structurer le dialogue entre fournisseurs et acheteurs
-                    </p>
-
-                    <div className="mt-4 h-px w-16 bg-gradient-to-r from-[#B8873F] to-transparent" />
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </Reveal>
-
-            {/* TEXTE */}
-
-            <Reveal delay={0.1}>
-
-              <div>
-
-                <SectionLabel>
-                  Mise en relation commerciale
-                </SectionLabel>
-
-                <h2 className="mt-5 text-3xl font-semibold leading-[1.08] tracking-[-0.05em] sm:text-4xl lg:text-5xl">
-
-                  Une relation
-
-                  <br />
-
-                  <span className="bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] bg-clip-text text-transparent">
-                    mieux structurée
-                  </span>
-
-                </h2>
-
-                <p className="mt-6 text-base leading-8 text-stone-600">
-                  Une opportunité d’approvisionnement repose sur la qualité
-                  des informations disponibles, la compréhension des besoins
-                  et la capacité à mettre les bons interlocuteurs en relation.
-                </p>
-
-                <div className="mt-8 space-y-5">
-
-                  {[
-                    {
-                      icon: Users,
-                      title: 'Identification des interlocuteurs',
-                      text: 'Mise en relation entre détenteurs de ressources, fournisseurs et entreprises à la recherche de solutions d’approvisionnement.',
-                    },
-                    {
-                      icon: ClipboardCheck,
-                      title: 'Qualification de l’opportunité',
-                      text: 'Prise en compte des informations disponibles sur la ressource, le contexte du projet et les besoins exprimés.',
-                    },
-                    {
-                      icon: Scale,
-                      title: 'Cadre commercial',
-                      text: 'Facilitation des échanges autour des conditions commerciales et des éléments utiles à l’appréciation de l’opportunité.',
-                    },
-                  ].map((item, index) => {
-
-                    const Icon = item.icon
-
-                    return (
-                      <div
-                        key={item.title}
-                        className="group flex items-start gap-4"
-                      >
-
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-stone-200 bg-[#FBFAF7] text-[#B8873F] transition-all duration-300 group-hover:border-[#D7B66C]/40 group-hover:bg-[#F7F1E4]">
-                          <Icon
-                            size={18}
-                            strokeWidth={1.7}
-                          />
-                        </div>
-
-                        <div className="flex-1">
-
-                          <div className="flex items-center gap-3">
-
-                            <h3 className="text-sm font-semibold text-[#0A0C0B]">
-                              {item.title}
-                            </h3>
-
-                            <span className="text-[8px] font-bold tracking-[0.18em] text-stone-300">
-                              {String(index + 1).padStart(2, '0')}
-                            </span>
-
-                          </div>
-
-                          <p className="mt-1.5 text-sm leading-6 text-stone-500">
-                            {item.text}
-                          </p>
-
-                        </div>
-
-                      </div>
-                    )
-                  })}
-
-                </div>
-
-              </div>
-
-            </Reveal>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* =========================================================
-          03 — DOMAINES D'INTERVENTION
-      ========================================================= */}
-
-      <section className="relative overflow-hidden bg-[#F5F3EE] py-20 sm:py-24 lg:py-28">
-
-        <div className="pointer-events-none absolute -right-24 top-0 h-96 w-96 rounded-full bg-[#D7B66C]/[0.055] blur-3xl" />
+      {/* =====================================================
+          NAVIGATION INTERNE
+      ===================================================== */}
+
+      <InternalNav />
+
+      {/* =====================================================
+          01 — DEUX CIRCUITS
+      ===================================================== */}
+
+      <section
+        id="circuits"
+        className="relative overflow-hidden bg-[#F5F3EE] py-20 sm:py-24 lg:py-28"
+      >
+        <div className="pointer-events-none absolute -right-40 top-0 h-96 w-96 rounded-full bg-[#D7B66C]/[0.06] blur-3xl" />
+
+        <div className="pointer-events-none absolute -left-32 bottom-0 h-80 w-80 rounded-full bg-[#C69B52]/[0.045] blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
 
           <Reveal>
-
             <div className="mx-auto max-w-3xl text-center">
-
               <SectionLabel>
-                Domaines d’intervention
+                Architecture commerciale
               </SectionLabel>
 
-              <h2 className="mt-5 text-3xl font-semibold tracking-[-0.05em] text-[#0A0C0B] sm:text-4xl lg:text-5xl">
-
-                Une expertise autour
-
+              <h2 className="mt-5 text-3xl font-semibold tracking-[-0.05em] sm:text-4xl lg:text-5xl">
+                Une activité.
                 <br />
-
                 <span className="bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] bg-clip-text text-transparent">
-                  de la chaîne d’approvisionnement
+                  Deux circuits commerciaux.
                 </span>
-
               </h2>
 
               <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-stone-500">
-                De l’identification d’une opportunité à la coordination des
-                flux, notre intervention accompagne les différentes étapes
-                nécessaires à la structuration d’un approvisionnement.
+                Barack Mining Investment adapte son intervention à la nature
+                du produit, à son niveau de transformation et au marché auquel
+                il est destiné.
               </p>
-
             </div>
-
           </Reveal>
 
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-14 grid gap-6 lg:grid-cols-2">
 
-            {[
-              {
-                icon: Handshake,
-                title: 'Mise en relation',
-                description:
-                  'Connexion entre fournisseurs, détenteurs de ressources et entreprises recherchant des opportunités d’approvisionnement.',
-              },
-              {
-                icon: ClipboardCheck,
-                title: 'Qualification',
-                description:
-                  'Collecte et structuration des informations disponibles afin de mieux apprécier l’opportunité présentée.',
-              },
-              {
-                icon: Scale,
-                title: 'Échanges commerciaux',
-                description:
-                  'Facilitation des discussions autour des besoins, volumes, conditions et éléments commerciaux disponibles.',
-              },
-              {
-                icon: Truck,
-                title: 'Logistique',
-                description:
-                  'Coordination des informations liées au transport, aux mouvements et à l’organisation des flux.',
-              },
-              {
-                icon: Package,
-                title: 'Suivi des ressources',
-                description:
-                  'Centralisation des informations associées aux ressources, aux chargements et aux étapes de leur acheminement.',
-              },
-              {
-                icon: ShieldCheck,
-                title: 'Traçabilité',
-                description:
-                  'Prise en compte des informations permettant de suivre l’origine et le parcours documenté d’une opportunité.',
-              },
-            ].map((item, index) => {
+            {/* LOCAL */}
 
-              const Icon = item.icon
+            <Reveal>
+              <div className="group relative overflow-hidden rounded-[30px] border border-stone-200 bg-white shadow-[0_18px_55px_rgba(15,23,42,0.055)]">
+                <div className="relative min-h-[440px] overflow-hidden">
+                  <Image
+                    src="/images/supply-local.jpg"
+                    alt="Approvisionnement en minerais bruts pour le marché local"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.035]"
+                  />
 
-              return (
-                <Reveal
-                  key={item.title}
-                  delay={index * 0.06}
-                >
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080A09]/95 via-[#080A09]/35 to-[#080A09]/05" />
 
-                  <div className="group relative h-full overflow-hidden rounded-[24px] border border-stone-200 bg-white p-6 shadow-[0_12px_35px_rgba(15,23,42,0.04)] transition-all duration-500 hover:-translate-y-1 hover:border-[#C69B52]/35 hover:shadow-[0_24px_55px_rgba(184,137,63,0.09)] sm:p-7">
+                  <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#D7B66C]/60 to-transparent" />
 
-                    <div className="absolute left-7 right-7 top-0 h-px bg-gradient-to-r from-transparent via-[#D7B66C]/0 to-transparent transition-all duration-500 group-hover:via-[#D7B66C]/65" />
+                  <div className="absolute bottom-0 left-0 right-0 p-7 sm:p-8">
+                    <div className="flex items-center justify-between gap-5">
+                      <div>
+                        <p className="text-[9px] font-bold uppercase tracking-[0.26em] text-[#E1C487]/75">
+                          Circuit 01
+                        </p>
 
-                    <div className="absolute -right-12 -top-12 h-28 w-28 rounded-full bg-[#D7B66C]/[0.065] blur-2xl transition-transform duration-700 group-hover:scale-150" />
+                        <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">
+                          Approvisionnement en minerais bruts
+                        </h3>
 
-                    <div className="relative">
-
-                      <div className="flex items-start justify-between gap-4">
-
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0A0C0B] text-[#E1C487] transition-transform duration-300 group-hover:scale-105">
-
-                          <Icon
-                            size={20}
-                            strokeWidth={1.8}
-                          />
-
+                        <div className="mt-3 inline-flex rounded-full border border-[#E1C487]/20 bg-[#E1C487]/[0.06] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.17em] text-[#E1C487] backdrop-blur-md">
+                          Marché local
                         </div>
-
-                        <span className="text-[9px] font-bold tracking-[0.20em] text-stone-300">
-                          {String(index + 1).padStart(2, '0')}
-                        </span>
-
                       </div>
 
-                      <h3 className="mt-6 text-lg font-semibold tracking-[-0.03em] text-[#0A0C0B]">
-                        {item.title}
-                      </h3>
-
-                      <p className="mt-3 text-sm leading-6 text-stone-500">
-                        {item.description}
-                      </p>
-
-                      <div className="mt-7 flex items-center gap-3">
-
-                        <span className="h-px flex-1 bg-stone-200 transition-colors duration-300 group-hover:bg-[#D7B66C]/45" />
-
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#C69B52] opacity-60 transition-all duration-300 group-hover:scale-125 group-hover:opacity-100" />
-
+                      <div className="hidden shrink-0 sm:flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-black/25 text-[#E1C487] backdrop-blur-md">
+                        <Factory size={20} strokeWidth={1.7} />
                       </div>
-
                     </div>
-
                   </div>
+                </div>
 
-                </Reveal>
-              )
-            })}
+                <div className="p-7 sm:p-8">
+                  <p className="text-sm leading-7 text-stone-600">
+                    Nous facilitons l’approvisionnement en ressources
+                    minières brutes destinées principalement aux entités de
+                    traitement, aux transformateurs et aux acteurs de la
+                    chaîne de valeur minière présents localement.
+                  </p>
 
+                  <div className="mt-7 border-t border-stone-200 pt-6">
+                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#9B793E]">
+                      Destinations
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {[
+                        'Entités de traitement',
+                        'Transformateurs',
+                        'Opérateurs miniers',
+                        'Partenaires industriels',
+                      ].map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-full border border-stone-200 bg-[#FBFAF7] px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.12em] text-stone-500"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* INTERNATIONAL */}
+
+            <Reveal delay={0.08}>
+              <div className="group relative overflow-hidden rounded-[30px] border border-stone-200 bg-[#080A09] shadow-[0_18px_55px_rgba(15,23,42,0.10)]">
+                <div className="relative min-h-[440px] overflow-hidden">
+                  <Image
+                    src="/images/supply-trading.png"
+                    alt="Négoce et trading de produits miniers sur les marchés internationaux"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.035]"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050606]/95 via-[#050606]/45 to-[#050606]/05" />
+
+                  <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#D7B66C]/70 to-transparent" />
+
+                  <div className="absolute bottom-0 left-0 right-0 p-7 sm:p-8">
+                    <div className="flex items-center justify-between gap-5">
+                      <div>
+                        <p className="text-[9px] font-bold uppercase tracking-[0.26em] text-[#E1C487]/75">
+                          Circuit 02
+                        </p>
+
+                        <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">
+                          Négoce & Trading
+                        </h3>
+
+                        <div className="mt-3 inline-flex rounded-full border border-[#E1C487]/20 bg-[#E1C487]/[0.06] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.17em] text-[#E1C487] backdrop-blur-md">
+                          Marché international
+                        </div>
+                      </div>
+
+                      <div className="hidden shrink-0 sm:flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-[#E1C487] backdrop-blur-md">
+                        <Globe2 size={20} strokeWidth={1.7} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-7 sm:p-8">
+                  <p className="text-sm leading-7 text-white/55">
+                    Nous accompagnons la commercialisation de produits miniers
+                    semi-finis ou finis destinés aux marchés internationaux,
+                    en fonction des opportunités, des spécifications et des
+                    conditions propres à chaque opération.
+                  </p>
+
+                  <div className="mt-7 border-t border-white/10 pt-6">
+                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#E1C487]/70">
+                      Destinations
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {[
+                        'Traders internationaux',
+                        'Acheteurs',
+                        'Revendeurs spécialisés',
+                        'Partenaires commerciaux',
+                      ].map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.12em] text-white/45"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
           </div>
 
+          {/* MESSAGE CENTRAL */}
+
+          <Reveal delay={0.12}>
+            <div className="mx-auto mt-10 max-w-4xl rounded-[24px] border border-[#C69B52]/15 bg-white p-5 text-center shadow-[0_15px_45px_rgba(15,23,42,0.04)] sm:p-6">
+              <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#0A0C0B] text-[#E1C487]">
+                  <CheckCircle2 size={16} strokeWidth={1.7} />
+                </span>
+
+                <p className="text-sm leading-6 text-stone-500">
+                  Un même métier d’approvisionnement, adapté au niveau de
+                  transformation du produit et à son marché de destination.
+                </p>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* =========================================================
-          04 — RESSOURCES
-      ========================================================= */}
+      {/* =====================================================
+          02 — CHAÎNE DE VALEUR
+      ===================================================== */}
 
-      <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
+      <section
+        id="value-chain"
+        className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28"
+      >
+        <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-[#D7B66C]/[0.045] blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
 
-          <div className="grid items-center gap-12 lg:grid-cols-[0.84fr_1.16fr] lg:gap-16">
+          <Reveal>
+            <div className="mx-auto max-w-3xl text-center">
+              <SectionLabel>
+                Chaîne de valeur
+              </SectionLabel>
+
+              <h2 className="mt-5 text-3xl font-semibold tracking-[-0.05em] sm:text-4xl lg:text-5xl">
+                Du minerai brut
+                <br />
+                <span className="bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] bg-clip-text text-transparent">
+                  au produit commercialisé
+                </span>
+              </h2>
+
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-stone-500">
+                La nature de l’offre et la destination du produit déterminent
+                le circuit commercial dans lequel l’opportunité est orientée.
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <div className="relative mt-16">
+              <div className="absolute left-[9%] right-[9%] top-[34px] hidden h-px bg-gradient-to-r from-[#B8873F]/10 via-[#D7B66C]/55 to-[#B8873F]/10 lg:block" />
+
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+                {[
+                  {
+                    number: '01',
+                    title: 'Ressource',
+                    text: 'Identification de l’opportunité et des informations disponibles.',
+                    icon: Package,
+                  },
+                  {
+                    number: '02',
+                    title: 'Minerai brut',
+                    text: 'Approvisionnement de la matière première vers les acteurs locaux appropriés.',
+                    icon: Factory,
+                  },
+                  {
+                    number: '03',
+                    title: 'Traitement',
+                    text: 'Transformation ou valorisation selon le projet et les capacités mobilisées.',
+                    icon: Sparkles,
+                  },
+                  {
+                    number: '04',
+                    title: 'Produit',
+                    text: 'Produit semi-fini ou fini répondant aux caractéristiques de l’opération.',
+                    icon: Diamond,
+                  },
+                  {
+                    number: '05',
+                    title: 'Marché',
+                    text: 'Mise en relation avec les acheteurs ou partenaires correspondant au besoin.',
+                    icon: Globe2,
+                  },
+                ].map((item) => (
+                  <ProcessStep
+                    key={item.number}
+                    number={item.number}
+                    title={item.title}
+                    text={item.text}
+                    icon={item.icon}
+                  />
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.12}>
+            <div className="mt-14 overflow-hidden rounded-[30px] border border-stone-200 bg-[#080A09]">
+              <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
+                <div className="relative min-h-[360px]">
+                  <Image
+                    src="/images/supply-value-chain.jpg"
+                    alt="Chaîne de valeur et transformation des ressources minières"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 58vw"
+                    className="object-cover"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#080A09]/10 via-[#080A09]/15 to-[#080A09]/90" />
+
+                  <div className="absolute inset-x-0 bottom-0 p-7 sm:p-8">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-[#E1C487]/70">
+                      Lecture du circuit
+                    </p>
+
+                    <p className="mt-2 max-w-xl text-xl font-semibold tracking-[-0.03em] text-white">
+                      La ressource suit un parcours commercial différent selon
+                      son niveau de transformation.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center p-7 sm:p-8 lg:p-10">
+                  <div>
+                    <div className="rounded-[22px] border border-white/10 bg-white/[0.035] p-6">
+                      <div className="flex items-start gap-4">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#E1C487]/[0.08] text-[#E1C487]">
+                          <ArrowDown size={18} strokeWidth={1.7} />
+                        </div>
+
+                        <div>
+                          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#E1C487]/70">
+                            Local
+                          </p>
+
+                          <p className="mt-1 text-sm leading-6 text-white/65">
+                            Minerai brut → entité de traitement / acteur
+                            local de la chaîne de valeur.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="my-3 flex justify-center text-[#D7B66C]/50">
+                      <ArrowDown size={17} strokeWidth={1.4} />
+                    </div>
+
+                    <div className="rounded-[22px] border border-[#D7B66C]/15 bg-[#D7B66C]/[0.045] p-6">
+                      <div className="flex items-start gap-4">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#D7B66C]/[0.08] text-[#E1C487]">
+                          <Globe2 size={18} strokeWidth={1.7} />
+                        </div>
+
+                        <div>
+                          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#E1C487]/70">
+                            International
+                          </p>
+
+                          <p className="mt-1 text-sm leading-6 text-white/65">
+                            Produit semi-fini ou fini → acheteur, trader ou
+                            partenaire commercial international.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* =====================================================
+          03 — RESSOURCES BRUTES
+      ===================================================== */}
+
+      <section
+        id="resources"
+        className="relative overflow-hidden bg-[#F5F3EE] py-20 sm:py-24 lg:py-28"
+      >
+        <div className="pointer-events-none absolute -left-32 top-0 h-96 w-96 rounded-full bg-[#D7B66C]/[0.05] blur-3xl" />
+
+        <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
+
+          <div className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
 
             {/* IMAGE */}
 
             <Reveal>
-
               <div className="relative">
-
                 <div className="absolute -inset-4 rounded-[34px] border border-[#C69B52]/12" />
+                <div className="absolute -inset-1 rounded-[30px] border border-[#D7B66C]/15" />
 
-                <div className="relative min-h-[420px] overflow-hidden rounded-[28px] bg-[#0A0C0B] shadow-[0_30px_80px_rgba(15,23,42,0.12)] sm:min-h-[500px]">
-
+                <div className="relative min-h-[470px] overflow-hidden rounded-[28px] bg-[#0A0C0B] shadow-[0_30px_80px_rgba(15,23,42,0.12)] sm:min-h-[560px]">
                   <Image
-                    src="/images/supply-resources.jpg"
-                    alt="Ressources minérales suivies dans le cadre des opportunités d'approvisionnement"
+                    src="/images/supply-raw-material.jpg"
+                    alt="Minerais bruts destinés à l'approvisionnement local"
                     fill
-                    sizes="(max-width: 1024px) 100vw, 48vw"
+                    sizes="(max-width: 1024px) 100vw, 46vw"
                     className="object-cover transition-transform duration-700 hover:scale-[1.035]"
                   />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#080A09]/90 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080A09]/90 via-[#080A09]/20 to-transparent" />
+
+                  <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#D7B66C]/65 to-transparent" />
 
                   <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-7">
-
                     <p className="text-[9px] font-semibold uppercase tracking-[0.25em] text-[#E1C487]/70">
-                      Ressources
+                      Circuit local
                     </p>
 
-                    <p className="mt-2 text-lg font-semibold text-white">
-                      Une sélection de ressources au cœur des opportunités
+                    <p className="mt-2 max-w-md text-lg font-semibold tracking-[-0.02em] text-white sm:text-xl">
+                      Des matières premières destinées à la chaîne locale de
+                      traitement et de valorisation.
                     </p>
 
                     <div className="mt-4 h-px w-16 bg-gradient-to-r from-[#B8873F] to-transparent" />
-
                   </div>
-
                 </div>
-
               </div>
-
             </Reveal>
 
-            {/* TEXTE + RESSOURCES */}
+            {/* CONTENT */}
 
-            <Reveal delay={0.1}>
-
+            <Reveal delay={0.08}>
               <div>
-
                 <SectionLabel>
-                  Ressources minérales
+                  Approvisionnement local
                 </SectionLabel>
 
                 <h2 className="mt-5 text-3xl font-semibold leading-[1.08] tracking-[-0.05em] sm:text-4xl lg:text-5xl">
-
-                  Des ressources
-
+                  Des minerais bruts
                   <br />
-
                   <span className="bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] bg-clip-text text-transparent">
-                    au cœur des échanges
+                    pour la chaîne locale
                   </span>
-
                 </h2>
 
                 <p className="mt-6 text-base leading-8 text-stone-600">
-                  Barack Mining Investment intervient autour d’opportunités
-                  portant notamment sur certaines ressources critiques et
-                  précieuses, selon les projets, les disponibilités et le
-                  contexte commercial.
+                  Ce circuit concerne principalement les ressources minières
+                  brutes destinées aux entités de traitement, aux
+                  transformateurs et aux acteurs locaux de la chaîne de valeur.
                 </p>
 
-                <div className="mt-9 grid gap-3 sm:grid-cols-2">
+                <div className="mt-9 grid gap-4 sm:grid-cols-2">
+                  <ProductCard
+                    number="01"
+                    name="Cuivre"
+                    category="Minerai critique"
+                    description="Matière première minérale destinée aux circuits locaux de traitement et de valorisation."
+                    icon={Scale}
+                  />
 
-                  {[
-                    {
-                      name: 'Cuivre',
-                      category: 'Minerai critique',
-                      icon: CircleDot,
-                    },
-                    {
-                      name: 'Cobalt',
-                      category: 'Minerai critique',
-                      icon: CircleDot,
-                    },
-                    {
-                      name: 'Coltan',
-                      category: 'Minerai critique',
-                      icon: CircleDot,
-                    },
-                    {
-                      name: 'Cassitérite',
-                      category: 'Minerai critique',
-                      icon: CircleDot,
-                    },
-                    {
-                      name: 'Or',
-                      category: 'Ressource précieuse',
-                      icon: Sparkles,
-                    },
-                    {
-                      name: 'Diamant',
-                      category: 'Ressource précieuse',
-                      icon: Diamond,
-                    },
-                  ].map((mineral, index) => {
+                  <ProductCard
+                    number="02"
+                    name="Cobalt"
+                    category="Minerai critique"
+                    description="Ressource suivie dans le cadre d’opportunités d’approvisionnement adaptées au contexte de chaque opération."
+                    icon={CircleDotIcon}
+                  />
 
-                    const Icon = mineral.icon
+                  <ProductCard
+                    number="03"
+                    name="Lithium"
+                    category="Ressource stratégique"
+                    description="Approvisionnement selon les disponibilités, caractéristiques et conditions propres au projet."
+                    icon={Sparkles}
+                  />
 
-                    return (
-                      <div
-                        key={mineral.name}
-                        className="group flex items-center gap-4 rounded-[18px] border border-stone-200 bg-[#FBFAF7] p-4 transition-all duration-300 hover:border-[#D7B66C]/35 hover:bg-white hover:shadow-[0_12px_30px_rgba(15,23,42,0.045)]"
-                      >
-
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#C69B52]/15 bg-white text-[#B8873F] transition-colors duration-300 group-hover:border-[#D7B66C]/35 group-hover:bg-[#F7F1E4]">
-
-                          <Icon
-                            size={17}
-                            strokeWidth={1.7}
-                          />
-
-                        </div>
-
-                        <div className="min-w-0">
-
-                          <div className="flex items-center gap-2">
-
-                            <p className="text-sm font-semibold text-[#0A0C0B]">
-                              {mineral.name}
-                            </p>
-
-                            <span className="text-[8px] font-bold tracking-[0.16em] text-stone-300">
-                              {String(index + 1).padStart(2, '0')}
-                            </span>
-
-                          </div>
-
-                          <p className="mt-0.5 text-[10px] uppercase tracking-[0.12em] text-stone-400">
-                            {mineral.category}
-                          </p>
-
-                        </div>
-
-                      </div>
-                    )
-                  })}
-
+                  <ProductCard
+                    number="04"
+                    name="Cassitérite"
+                    category="Minerai"
+                    description="Matière première suivie dans le cadre d’opportunités destinées à la chaîne de valeur minière."
+                    icon={Package}
+                  />
                 </div>
 
                 <div className="mt-8 flex items-start gap-3 border-t border-stone-200 pt-6">
-
                   <CheckCircle2
                     size={17}
                     className="mt-0.5 shrink-0 text-[#B8873F]"
@@ -690,672 +812,849 @@ export default function ActivityDetailClient() {
                   />
 
                   <p className="text-sm leading-6 text-stone-500">
-                    L’intervention de BMI dépend des opportunités présentées,
-                    des informations disponibles et du contexte commercial
-                    propre à chaque projet.
+                    La disponibilité, la forme du produit, les volumes, les
+                    spécifications et les conditions d’approvisionnement
+                    dépendent de chaque opportunité.
                   </p>
-
                 </div>
-
               </div>
-
             </Reveal>
-
           </div>
-
         </div>
       </section>
 
-      {/* =========================================================
-          05 — LOGISTIQUE / FLUX
-      ========================================================= */}
+      {/* =====================================================
+          04 — TRADING INTERNATIONAL
+      ===================================================== */}
 
-      <section className="relative overflow-hidden bg-[#080A09] py-20 text-white sm:py-24 lg:py-28">
-
+      <section
+        id="trading"
+        className="relative overflow-hidden bg-[#080A09] py-20 text-white sm:py-24 lg:py-28"
+      >
         <div className="pointer-events-none absolute -left-32 top-0 h-96 w-96 rounded-full bg-[#B8873F]/[0.08] blur-3xl" />
 
-        <div className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-[#E1C487]/[0.07] blur-3xl" />
-
-        <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
-
-          <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
-
-            {/* TEXTE */}
-
-            <Reveal>
-
-              <div>
-
-                <SectionLabel>
-                  Logistique & flux
-                </SectionLabel>
-
-                <h2 className="mt-5 text-3xl font-semibold leading-[1.08] tracking-[-0.05em] sm:text-4xl lg:text-5xl">
-
-                  Donner une meilleure visibilité
-
-                  <br />
-
-                  <span className="bg-gradient-to-r from-[#F0D79F] via-[#D7B66C] to-[#B8873F] bg-clip-text text-transparent">
-                    aux mouvements
-                  </span>
-
-                </h2>
-
-                <p className="mt-6 max-w-xl text-base leading-8 text-white/55">
-                  Une opportunité d’approvisionnement implique également des
-                  informations relatives aux mouvements, au transport et aux
-                  différentes étapes du flux. Ces informations peuvent être
-                  structurées afin de faciliter le suivi de l’opération.
-                </p>
-
-                <div className="mt-8 space-y-5">
-
-                  {[
-                    {
-                      icon: Truck,
-                      title: 'Coordination du transport',
-                      text: 'Organisation des informations utiles aux mouvements et à l’acheminement des ressources.',
-                    },
-                    {
-                      icon: MapPinned,
-                      title: 'Suivi des étapes',
-                      text: 'Visualisation structurée des différentes étapes du parcours lorsque les données sont disponibles.',
-                    },
-                    {
-                      icon: Package,
-                      title: 'Informations de chargement',
-                      text: 'Association des informations disponibles au chargement et à son évolution dans la chaîne.',
-                    },
-                    {
-                      icon: Route,
-                      title: 'Continuité du flux',
-                      text: 'Rapprochement des informations utiles afin de mieux comprendre le parcours d’une opportunité.',
-                    },
-                  ].map((item, index) => {
-
-                    const Icon = item.icon
-
-                    return (
-                      <div
-                        key={item.title}
-                        className="group flex items-start gap-4"
-                      >
-
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-[#E1C487] transition-colors duration-300 group-hover:border-[#E1C487]/30 group-hover:bg-[#E1C487]/[0.07]">
-
-                          <Icon
-                            size={17}
-                            strokeWidth={1.7}
-                          />
-
-                        </div>
-
-                        <div>
-
-                          <div className="flex items-center gap-3">
-
-                            <p className="text-sm font-semibold text-white/85">
-                              {item.title}
-                            </p>
-
-                            <span className="text-[8px] font-bold tracking-[0.16em] text-white/15">
-                              {String(index + 1).padStart(2, '0')}
-                            </span>
-
-                          </div>
-
-                          <p className="mt-1 text-sm leading-6 text-white/40">
-                            {item.text}
-                          </p>
-
-                        </div>
-
-                      </div>
-                    )
-                  })}
-
-                </div>
-
-              </div>
-
-            </Reveal>
-
-            {/* IMAGE */}
-
-            <Reveal delay={0.12}>
-
-              <div className="relative">
-
-                <div className="absolute -inset-4 rounded-[34px] border border-[#D7B66C]/10" />
-
-                <div className="absolute -inset-1 rounded-[30px] border border-[#D7B66C]/15" />
-
-                <div className="relative min-h-[430px] overflow-hidden rounded-[28px] border border-white/10 bg-[#111513] shadow-[0_30px_90px_rgba(0,0,0,0.35)] sm:min-h-[520px]">
-
-                  <Image
-                    src="/images/supply-logistics.jpg"
-                    alt="Transport et logistique liés à l'approvisionnement minéral"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 58vw"
-                    className="object-cover transition-transform duration-700 hover:scale-[1.035]"
-                  />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#080A09]/90 via-transparent to-transparent" />
-
-                  <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#D7B66C]/60 to-transparent" />
-
-                  <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-7">
-
-                    <div className="flex items-center gap-3">
-
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#D7B66C]/20 bg-[#0A0C0B]/75 text-[#E1C487] backdrop-blur-md">
-
-                        <Truck
-                          size={17}
-                          strokeWidth={1.7}
-                        />
-
-                      </div>
-
-                      <div>
-
-                        <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#E1C487]/70">
-                          Flux logistiques
-                        </p>
-
-                        <p className="mt-1 text-sm font-medium text-white/80">
-                          Transport · Chargement · Suivi
-                        </p>
-
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </Reveal>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* =========================================================
-          06 — CHAÎNE D'APPROVISIONNEMENT
-      ========================================================= */}
-
-      <section className="relative overflow-hidden bg-[#F5F3EE] py-20 sm:py-24 lg:py-28">
-
-        <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-[#D7B66C]/[0.05] blur-3xl" />
+        <div className="pointer-events-none absolute -right-32 bottom-0 h-[420px] w-[420px] rounded-full bg-[#E1C487]/[0.06] blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
 
           <Reveal>
-
             <div className="mx-auto max-w-3xl text-center">
-
-              <SectionLabel>
-                Chaîne d’approvisionnement
+              <SectionLabel light>
+                Négoce international
               </SectionLabel>
 
-              <h2 className="mt-5 text-3xl font-semibold tracking-[-0.05em] text-[#0A0C0B] sm:text-4xl lg:text-5xl">
-
-                De l’opportunité
-
+              <h2 className="mt-5 text-3xl font-semibold tracking-[-0.05em] sm:text-4xl lg:text-5xl">
+                Des produits miniers
                 <br />
-
-                <span className="bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] bg-clip-text text-transparent">
-                  au suivi du flux
+                <span className="bg-gradient-to-r from-[#F0D79F] via-[#D7B66C] to-[#B8873F] bg-clip-text text-transparent">
+                  destinés aux marchés internationaux
                 </span>
-
               </h2>
 
-              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-stone-500">
-                Une continuité d’informations destinée à mieux structurer les
-                échanges et à suivre les différentes étapes disponibles.
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/45">
+                Un circuit commercial distinct, orienté vers des produits
+                semi-finis ou finis et des partenaires internationaux.
               </p>
-
             </div>
-
           </Reveal>
 
-          <Reveal delay={0.08}>
+          <div className="mt-14 grid gap-5 lg:grid-cols-3">
 
-            <div className="relative mt-14">
+            <Reveal>
+              <ProductCard
+                number="01"
+                name="Or"
+                category="Ressource précieuse"
+                description="Produit destiné au négoce international selon les conditions, les documents disponibles et les exigences propres à l’opération."
+                icon={Sparkles}
+                dark
+              />
+            </Reveal>
 
-              <div className="absolute left-[10%] right-[10%] top-9 hidden h-px bg-gradient-to-r from-[#B8873F]/15 via-[#D7B66C]/55 to-[#B8873F]/15 lg:block" />
+            <Reveal delay={0.06}>
+              <ProductCard
+                number="02"
+                name="Diamant"
+                category="Ressource précieuse"
+                description="Produit destiné aux circuits commerciaux internationaux dans le respect des exigences applicables à chaque transaction."
+                icon={Diamond}
+                dark
+              />
+            </Reveal>
 
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+            <Reveal delay={0.12}>
+              <ProductCard
+                number="03"
+                name="Cathodes de cuivre"
+                category="Produit raffiné"
+                description="Produit de cuivre destiné aux acheteurs et traders internationaux selon les spécifications et conditions commerciales convenues."
+                icon={Package}
+                dark
+              />
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.15}>
+            <div className="mt-10 overflow-hidden rounded-[28px] border border-white/10">
+              <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
+
+                <div className="relative min-h-[360px]">
+                  <Image
+                    src="/images/supply-international.jpg"
+                    alt="Produits miniers destinés aux marchés internationaux"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#080A09]/10 via-[#080A09]/15 to-[#080A09]/85" />
+                </div>
+
+                <div className="flex items-center bg-[#0D100F] p-7 sm:p-9 lg:p-11">
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.23em] text-[#E1C487]/70">
+                      Positionnement trading
+                    </p>
+
+                    <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
+                      Un circuit orienté vers la valorisation commerciale
+                    </h3>
+
+                    <p className="mt-5 text-sm leading-7 text-white/45">
+                      Le négoce concerne ici des produits dont le niveau de
+                      transformation permet une orientation vers des circuits
+                      commerciaux internationaux, en fonction de la nature du
+                      produit et des exigences de l’opération.
+                    </p>
+
+                    <div className="mt-7 grid gap-3 sm:grid-cols-2">
+                      {[
+                        'Produits semi-finis',
+                        'Produits finis',
+                        'Acheteurs internationaux',
+                        'Traders spécialisés',
+                      ].map((item) => (
+                        <div
+                          key={item}
+                          className="rounded-[16px] border border-white/10 bg-white/[0.035] px-4 py-3"
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#E1C487]" />
+                            <span className="text-[10px] font-semibold uppercase tracking-[0.11em] text-white/55">
+                              {item}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* =====================================================
+          05 — NOTRE RÔLE
+      ===================================================== */}
+
+      <section
+        id="role"
+        className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28"
+      >
+        <div className="pointer-events-none absolute -right-32 top-0 h-96 w-96 rounded-full bg-[#D7B66C]/[0.05] blur-3xl" />
+
+        <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
+
+          <div className="grid items-start gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+
+            <Reveal>
+              <div className="lg:sticky lg:top-[145px]">
+                <SectionLabel>
+                  Notre rôle
+                </SectionLabel>
+
+                <h2 className="mt-5 text-3xl font-semibold leading-[1.08] tracking-[-0.05em] sm:text-4xl lg:text-5xl">
+                  Plus qu’une
+                  <br />
+                  <span className="bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] bg-clip-text text-transparent">
+                    mise en relation
+                  </span>
+                </h2>
+
+                <p className="mt-6 max-w-md text-base leading-8 text-stone-600">
+                  Une opération d’approvisionnement nécessite plus qu’un
+                  contact. Notre intervention vise à structurer les
+                  informations et à faciliter le dialogue entre les parties
+                  concernées.
+                </p>
+
+                <div className="mt-8 overflow-hidden rounded-[24px] border border-stone-200 bg-[#0A0C0B] shadow-[0_25px_65px_rgba(15,23,42,0.10)]">
+                  <div className="relative min-h-[310px]">
+                    <Image
+                      src="/images/supply-commercial.jpg"
+                      alt="Professionnels échangeant autour d'une opportunité d'approvisionnement"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 40vw"
+                      className="object-cover"
+                    />
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#080A09]/90 via-transparent to-transparent" />
+
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#E1C487]/70">
+                        Relation commerciale
+                      </p>
+
+                      <p className="mt-2 text-base font-semibold text-white">
+                        Connecter les bons interlocuteurs autour d’une
+                        opportunité réelle.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.08}>
+              <div className="space-y-5">
 
                 {[
                   {
-                    icon: Package,
                     number: '01',
-                    title: 'Ressource',
-                    text: 'Identification de la ressource et des informations disponibles.',
-                  },
-                  {
                     icon: Users,
+                    title: 'Identifier les parties concernées',
+                    text: 'Identifier les détenteurs de ressources, les fournisseurs, les acheteurs et les partenaires correspondant à la nature de l’opération.',
+                  },
+                  {
                     number: '02',
-                    title: 'Interlocuteurs',
-                    text: 'Mise en relation des parties concernées par l’opportunité.',
+                    icon: FileCheck2,
+                    title: 'Qualifier l’opportunité',
+                    text: 'Structurer les informations disponibles sur la ressource, le produit, le besoin, le contexte et les conditions connues.',
                   },
                   {
-                    icon: ClipboardCheck,
                     number: '03',
-                    title: 'Qualification',
-                    text: 'Structuration des données utiles à l’appréciation du projet.',
+                    icon: Handshake,
+                    title: 'Faciliter la mise en relation',
+                    text: 'Créer un cadre d’échange plus clair entre les différentes parties intéressées par l’opportunité.',
                   },
                   {
-                    icon: Truck,
                     number: '04',
-                    title: 'Logistique',
-                    text: 'Coordination des informations relatives au transport et aux flux.',
+                    icon: Scale,
+                    title: 'Structurer les échanges commerciaux',
+                    text: 'Faciliter la circulation des informations utiles à l’appréciation de l’offre, du besoin et des conditions de l’opération.',
                   },
                   {
-                    icon: ShieldCheck,
                     number: '05',
-                    title: 'Traçabilité',
-                    text: 'Suivi documenté des informations disponibles tout au long du parcours.',
+                    icon: ClipboardCheck,
+                    title: 'Accompagner le suivi',
+                    text: 'Maintenir une continuité d’information sur les éléments documentés dans le périmètre de l’opération.',
                   },
-                ].map((item) => {
-
+                ].map((item, index) => {
                   const Icon = item.icon
 
                   return (
                     <div
                       key={item.number}
-                      className="relative rounded-[22px] border border-stone-200 bg-white p-6 shadow-[0_12px_35px_rgba(15,23,42,0.04)]"
+                      className="group rounded-[24px] border border-stone-200 bg-[#FBFAF7] p-6 transition-all duration-400 hover:border-[#D7B66C]/35 hover:bg-white hover:shadow-[0_18px_45px_rgba(15,23,42,0.05)] sm:p-7"
                     >
+                      <div className="flex items-start gap-5">
+                        <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#C69B52]/20 bg-white text-[#B8873F]">
+                          <Icon size={17} strokeWidth={1.7} />
 
-                      <div className="relative z-10 flex h-[72px] w-[72px] items-center justify-center rounded-full border border-[#C69B52]/25 bg-[#FBFAF7]">
-
-                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0A0C0B] text-[#E1C487]">
-
-                          <Icon
-                            size={19}
-                            strokeWidth={1.8}
-                          />
-
+                          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full border border-[#FBFAF7] bg-[#0A0C0B] text-[7px] font-bold text-[#E1C487]">
+                            {String(index + 1)}
+                          </span>
                         </div>
 
+                        <div className="flex-1">
+                          <div className="flex flex-wrap items-center gap-3">
+                            <h3 className="text-base font-semibold tracking-[-0.02em] text-[#0A0C0B]">
+                              {item.title}
+                            </h3>
+
+                            <span className="text-[8px] font-bold tracking-[0.18em] text-stone-300">
+                              {item.number}
+                            </span>
+                          </div>
+
+                          <p className="mt-2 text-sm leading-6 text-stone-500">
+                            {item.text}
+                          </p>
+                        </div>
                       </div>
-
-                      <p className="mt-5 text-[9px] font-bold uppercase tracking-[0.20em] text-[#9B793E]">
-                        {item.number}
-                      </p>
-
-                      <h3 className="mt-2 text-base font-semibold tracking-[-0.02em] text-[#0A0C0B]">
-                        {item.title}
-                      </h3>
-
-                      <p className="mt-2 text-sm leading-6 text-stone-500">
-                        {item.text}
-                      </p>
-
                     </div>
                   )
                 })}
-
               </div>
-
-            </div>
-
-          </Reveal>
-
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* =========================================================
-          07 — TRAÇABILITÉ & MÉTHODOLOGIE
-      ========================================================= */}
+      {/* =====================================================
+          06 — LOGISTIQUE & FLUX
+      ===================================================== */}
 
-      <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
+      <section
+        id="logistics"
+        className="relative overflow-hidden bg-[#080A09] py-20 text-white sm:py-24 lg:py-28"
+      >
+        <div className="pointer-events-none absolute -left-32 top-0 h-96 w-96 rounded-full bg-[#B8873F]/[0.08] blur-3xl" />
 
-        <div className="pointer-events-none absolute -right-32 top-0 h-96 w-96 rounded-full bg-[#D7B66C]/[0.05] blur-3xl" />
+        <div className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-[#E1C487]/[0.06] blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
 
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-
-            {/* TEXTE */}
+          <div className="grid items-center gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
 
             <Reveal>
-
               <div>
-
-                <SectionLabel>
-                  Traçabilité & méthodologie
+                <SectionLabel light>
+                  Logistique & flux
                 </SectionLabel>
 
                 <h2 className="mt-5 text-3xl font-semibold leading-[1.08] tracking-[-0.05em] sm:text-4xl lg:text-5xl">
-
-                  Une démarche
-
+                  Des flux
                   <br />
-
-                  <span className="bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] bg-clip-text text-transparent">
-                    structurée et responsable
+                  <span className="bg-gradient-to-r from-[#F0D79F] via-[#D7B66C] to-[#B8873F] bg-clip-text text-transparent">
+                    mieux coordonnés
                   </span>
-
                 </h2>
 
-                <p className="mt-6 max-w-xl text-base leading-8 text-stone-600">
-                  Chaque opportunité possède son propre contexte. Notre
-                  démarche consiste donc à structurer les informations
-                  disponibles, faciliter les échanges et assurer une meilleure
-                  continuité dans le suivi.
+                <p className="mt-6 max-w-xl text-base leading-8 text-white/50">
+                  Lorsque l’opération le nécessite, BMI contribue à structurer
+                  les informations relatives au transport, au chargement, à
+                  l’acheminement et aux différentes étapes du flux.
                 </p>
 
-                <div className="mt-9 space-y-5">
-
+                <div className="mt-9 grid gap-4 sm:grid-cols-2">
                   {[
                     {
-                      icon: FileCheck2,
-                      title: 'Collecte des informations',
-                      text: 'Réunir les éléments disponibles sur la ressource, le besoin ou le projet présenté.',
-                    },
-                    {
-                      icon: ClipboardCheck,
-                      title: 'Analyse de l’opportunité',
-                      text: 'Examiner les informations disponibles avant d’organiser les échanges pertinents.',
-                    },
-                    {
-                      icon: Handshake,
-                      title: 'Mise en relation',
-                      text: 'Faciliter les échanges entre les interlocuteurs concernés par l’opportunité.',
-                    },
-                    {
                       icon: Truck,
-                      title: 'Coordination du flux',
-                      text: 'Structurer les informations relatives au transport et aux différentes étapes du parcours.',
+                      title: 'Transport',
+                      text: 'Informations et coordination relatives aux mouvements.',
                     },
                     {
-                      icon: ShieldCheck,
-                      title: 'Suivi et traçabilité',
-                      text: 'Conserver une information exploitable sur les étapes documentées de l’opération.',
+                      icon: Package,
+                      title: 'Chargement',
+                      text: 'Informations disponibles sur les lots et opérations de chargement.',
                     },
-                  ].map((item, index) => {
-
+                    {
+                      icon: Route,
+                      title: 'Acheminement',
+                      text: 'Suivi des différentes étapes communiquées dans le cadre de l’opération.',
+                    },
+                    {
+                      icon: MapPinned,
+                      title: 'Suivi',
+                      text: 'Centralisation des informations utiles au parcours de la ressource.',
+                    },
+                  ].map((item) => {
                     const Icon = item.icon
 
                     return (
                       <div
                         key={item.title}
-                        className="group flex items-start gap-4"
+                        className="rounded-[20px] border border-white/10 bg-white/[0.035] p-5"
                       >
-
-                        <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#C69B52]/25 bg-[#FBFAF7] text-[#9B793E]">
-
-                          <span className="absolute inset-0 rounded-full border border-[#D7B66C]/0 transition-colors duration-300 group-hover:border-[#D7B66C]/45" />
-
-                          <Icon
-                            size={17}
-                            strokeWidth={1.7}
-                          />
-
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E1C487]/[0.07] text-[#E1C487]">
+                          <Icon size={17} strokeWidth={1.7} />
                         </div>
 
-                        <div className="pt-0.5">
+                        <h3 className="mt-4 text-sm font-semibold text-white/85">
+                          {item.title}
+                        </h3>
 
-                          <div className="flex items-center gap-3">
-
-                            <p className="text-sm font-semibold text-[#0A0C0B]">
-                              {item.title}
-                            </p>
-
-                            <span className="text-[8px] font-bold tracking-[0.15em] text-stone-300">
-                              {String(index + 1).padStart(2, '0')}
-                            </span>
-
-                          </div>
-
-                          <p className="mt-1 text-sm leading-6 text-stone-500">
-                            {item.text}
-                          </p>
-
-                        </div>
-
+                        <p className="mt-1.5 text-sm leading-6 text-white/35">
+                          {item.text}
+                        </p>
                       </div>
                     )
                   })}
-
                 </div>
-
               </div>
-
             </Reveal>
 
-            {/* IMAGE */}
-
             <Reveal delay={0.1}>
-
               <div className="relative">
-
-                <div className="absolute -inset-4 rounded-[34px] border border-[#C69B52]/12" />
-
+                <div className="absolute -inset-4 rounded-[34px] border border-[#D7B66C]/10" />
                 <div className="absolute -inset-1 rounded-[30px] border border-[#D7B66C]/15" />
 
-                <div className="relative min-h-[420px] overflow-hidden rounded-[28px] bg-[#0A0C0B] shadow-[0_30px_80px_rgba(15,23,42,0.13)] sm:min-h-[500px]">
-
+                <div className="relative min-h-[470px] overflow-hidden rounded-[28px] border border-white/10 bg-[#111513] shadow-[0_30px_90px_rgba(0,0,0,0.35)] sm:min-h-[560px]">
                   <Image
-                    src="/images/supply-method.jpg"
-                    alt="Méthodologie et traçabilité de la chaîne d'approvisionnement minéral"
+                    src="/images/supply-logistics.png"
+                    alt="Logistique et flux de transport liés à l'approvisionnement minéral"
                     fill
-                    sizes="(max-width: 1024px) 100vw, 52vw"
+                    sizes="(max-width: 1024px) 100vw, 55vw"
                     className="object-cover transition-transform duration-700 hover:scale-[1.035]"
                   />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#080A09]/90 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080A09]/90 via-[#080A09]/10 to-transparent" />
 
-                  <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#D7B66C]/65 to-transparent" />
+                  <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#D7B66C]/60 to-transparent" />
 
                   <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-7">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#D7B66C]/20 bg-[#0A0C0B]/75 text-[#E1C487] backdrop-blur-md">
+                        <Truck size={17} strokeWidth={1.7} />
+                      </div>
 
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.25em] text-[#E1C487]/65">
-                      Traçabilité
-                    </p>
+                      <div>
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#E1C487]/70">
+                          Flux logistiques
+                        </p>
 
-                    <p className="mt-2 text-base font-semibold tracking-[-0.02em] text-white sm:text-lg">
-                      Une information structurée à chaque étape documentée
-                    </p>
-
-                    <div className="mt-4 flex items-center gap-3">
-
-                      <span className="h-px w-12 bg-gradient-to-r from-[#B8873F] to-transparent" />
-
-                      <span className="text-[8px] uppercase tracking-[0.18em] text-white/35">
-                        Information · Contrôle · Suivi
-                      </span>
-
+                        <p className="mt-1 text-sm font-medium text-white/80">
+                          Transport · Chargement · Acheminement · Suivi
+                        </p>
+                      </div>
                     </div>
-
                   </div>
-
                 </div>
-
               </div>
-
             </Reveal>
-
           </div>
-
         </div>
       </section>
 
-      {/* =========================================================
-          08 — INDICATEURS DE VALEUR
-      ========================================================= */}
+      {/* =====================================================
+          07 — INFORMATION & SUIVI
+      ===================================================== */}
 
-      <section className="relative overflow-hidden bg-[#F5F3EE] py-16 sm:py-20">
+      <section className="relative overflow-hidden bg-[#F5F3EE] py-20 sm:py-24 lg:py-28">
+        <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
 
+          <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+
+            <Reveal>
+              <div className="relative">
+                <div className="absolute -inset-4 rounded-[34px] border border-[#C69B52]/12" />
+
+                <div className="relative min-h-[430px] overflow-hidden rounded-[28px] bg-[#0A0C0B] shadow-[0_30px_80px_rgba(15,23,42,0.12)] sm:min-h-[520px]">
+                  <Image
+                    src="/images/supply-traceability.png"
+                    alt="Suivi documentaire et structuration des informations d'une opération minière"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-700 hover:scale-[1.035]"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080A09]/92 via-[#080A09]/20 to-transparent" />
+
+                  <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-7">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.25em] text-[#E1C487]/70">
+                      Information & suivi
+                    </p>
+
+                    <p className="mt-2 max-w-md text-lg font-semibold tracking-[-0.02em] text-white sm:text-xl">
+                      Une information structurée sur les étapes documentées de
+                      l’opération.
+                    </p>
+
+                    <div className="mt-4 flex items-center gap-3">
+                      <span className="h-px w-12 bg-gradient-to-r from-[#B8873F] to-transparent" />
+
+                      <span className="text-[8px] uppercase tracking-[0.18em] text-white/30">
+                        Information · Documentation · Suivi
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.08}>
+              <div>
+                <SectionLabel>
+                  Information & suivi
+                </SectionLabel>
+
+                <h2 className="mt-5 text-3xl font-semibold leading-[1.08] tracking-[-0.05em] sm:text-4xl lg:text-5xl">
+                  Une continuité
+                  <br />
+                  <span className="bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] bg-clip-text text-transparent">
+                    d’information
+                  </span>
+                </h2>
+
+                <p className="mt-6 text-base leading-8 text-stone-600">
+                  Chaque opportunité possède son propre contexte documentaire.
+                  L’objectif est de structurer les informations disponibles et
+                  de maintenir une lecture claire des étapes de l’opération.
+                </p>
+
+                <div className="mt-8 space-y-4">
+                  {[
+                    {
+                      icon: FileCheck2,
+                      title: 'Informations sur la ressource',
+                      text: 'Centralisation des informations communiquées sur le produit ou la ressource.',
+                    },
+                    {
+                      icon: ClipboardCheck,
+                      title: 'Documentation disponible',
+                      text: 'Organisation des documents et éléments fournis dans le cadre de l’opération.',
+                    },
+                    {
+                      icon: MapPinned,
+                      title: 'Étapes du parcours',
+                      text: 'Suivi des étapes documentées et des informations communiquées.',
+                    },
+                    {
+                      icon: ShieldCheck,
+                      title: 'Suivi structuré',
+                      text: 'Maintien d’une continuité d’information dans le périmètre défini.',
+                    },
+                  ].map((item, index) => {
+                    const Icon = item.icon
+
+                    return (
+                      <div
+                        key={item.title}
+                        className="flex items-start gap-4 rounded-[20px] border border-stone-200 bg-white p-5"
+                      >
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FBFAF7] text-[#B8873F]">
+                          <Icon size={17} strokeWidth={1.7} />
+                        </div>
+
+                        <div>
+                          <div className="flex items-center gap-3">
+                            <h3 className="text-sm font-semibold text-[#0A0C0B]">
+                              {item.title}
+                            </h3>
+
+                            <span className="text-[8px] font-bold tracking-[0.18em] text-stone-300">
+                              {String(index + 1).padStart(2, '0')}
+                            </span>
+                          </div>
+
+                          <p className="mt-1.5 text-sm leading-6 text-stone-500">
+                            {item.text}
+                          </p>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                <div className="mt-8 rounded-[22px] border border-[#C69B52]/15 bg-[#FBFAF7] p-5">
+                  <p className="text-sm leading-6 text-stone-500">
+                    BMI structure et suit les informations disponibles sur
+                    l’opération, selon les documents et données communiqués par
+                    les parties concernées.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          08 — OPPORTUNITÉ / CONVERSION
+      ===================================================== */}
+
+      <section
+        id="opportunity"
+        className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28"
+      >
         <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
 
           <Reveal>
+            <div className="mx-auto max-w-3xl text-center">
+              <SectionLabel>
+                Entrer dans le réseau BMI
+              </SectionLabel>
 
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <h2 className="mt-5 text-3xl font-semibold tracking-[-0.05em] sm:text-4xl lg:text-5xl">
+                Vous avez une ressource
+                <br />
+                <span className="bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] bg-clip-text text-transparent">
+                  ou un besoin ?
+                </span>
+              </h2>
+
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-stone-500">
+                Présentez votre opportunité ou exprimez votre besoin afin que
+                nous puissions comprendre le contexte, le produit recherché et
+                les conditions de la démarche.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="mt-14 grid gap-6 lg:grid-cols-2">
+
+            {/* FOURNISSEUR */}
+
+            <Reveal>
+              <div className="group relative overflow-hidden rounded-[30px] bg-[#080A09]">
+                <div className="relative min-h-[360px]">
+                  <Image
+                    src="/images/supply-opportunity.jpg"
+                    alt="Présentation d'une opportunité d'approvisionnement minéral"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.035]"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080A09]/95 via-[#080A09]/55 to-[#080A09]/10" />
+
+                  <div className="absolute bottom-0 left-0 right-0 p-7 sm:p-8">
+                    <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#E1C487]/70">
+                      Fournisseur / détenteur
+                    </p>
+
+                    <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+                      Vous avez une ressource ?
+                    </h3>
+
+                    <p className="mt-4 max-w-lg text-sm leading-6 text-white/45">
+                      Présentez votre produit, votre ressource ou votre
+                      opportunité commerciale et partagez les informations
+                      disponibles.
+                    </p>
+
+                    <Link
+                      href="/opportunity?profile=supplier"
+                      className="group/btn mt-7 inline-flex h-12 items-center justify-center gap-2 rounded-full border border-[#D7B66C]/60 bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] px-6 text-sm font-semibold text-[#15120C] shadow-[0_14px_35px_rgba(184,137,63,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105"
+                    >
+                      Présenter une opportunité
+
+                      <ArrowRight
+                        size={16}
+                        className="transition-transform duration-300 group-hover/btn:translate-x-1"
+                      />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* ACHETEUR */}
+
+            <Reveal delay={0.08}>
+              <div className="group relative overflow-hidden rounded-[30px] border border-stone-200 bg-[#F5F3EE]">
+                <div className="grid min-h-[360px] lg:grid-cols-[0.9fr_1.1fr]">
+
+                  <div className="relative min-h-[260px] lg:min-h-full">
+                    <Image
+                      src="/images/supply-buyers.jpg"
+                      alt="Recherche de produits miniers et besoins d'approvisionnement"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 38vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-[1.035]"
+                    />
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#080A09]/75 via-transparent to-transparent lg:bg-gradient-to-r lg:from-[#080A09]/10 lg:via-transparent lg:to-[#F5F3EE]/90" />
+                  </div>
+
+                  <div className="flex items-center p-7 sm:p-8">
+                    <div>
+                      <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#9B793E]">
+                        Acheteur / trader
+                      </p>
+
+                      <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-[#0A0C0B] sm:text-3xl">
+                        Vous recherchez un produit ?
+                      </h3>
+
+                      <p className="mt-4 text-sm leading-6 text-stone-500">
+                        Présentez votre besoin d’approvisionnement, les
+                        spécifications recherchées et le marché de destination.
+                      </p>
+
+                      <Link
+                        href="/opportunity?profile=investor"
+                        className="group/btn mt-7 inline-flex h-12 items-center justify-center gap-2 rounded-full border border-stone-300 bg-[#0A0C0B] px-6 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-[#D7B66C]/40 hover:text-[#E1C487]"
+                      >
+                        Exprimer un besoin
+
+                        <ArrowUpRight
+                          size={16}
+                          className="transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          09 — POSITIONNEMENT
+      ===================================================== */}
+
+      <section className="relative overflow-hidden bg-[#F5F3EE] py-16 sm:py-20">
+        <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
+
+          <Reveal>
+            <div className="grid gap-4 lg:grid-cols-3">
 
               {[
                 {
                   icon: Handshake,
-                  eyebrow: 'Relation',
-                  title: 'Interlocuteurs connectés',
-                  text: 'Faciliter les échanges entre les parties concernées.',
+                  title: 'Relation',
+                  text: 'Créer des connexions commerciales pertinentes entre l’offre et la demande.',
                 },
                 {
-                  icon: ClipboardCheck,
-                  eyebrow: 'Qualification',
-                  title: 'Informations structurées',
-                  text: 'Organiser les données utiles à l’appréciation d’une opportunité.',
-                },
-                {
-                  icon: Truck,
-                  eyebrow: 'Logistique',
-                  title: 'Flux suivis',
-                  text: 'Centraliser les informations disponibles sur les mouvements.',
+                  icon: FileCheck2,
+                  title: 'Information',
+                  text: 'Structurer les données et documents disponibles autour de chaque opportunité.',
                 },
                 {
                   icon: ShieldCheck,
-                  eyebrow: 'Traçabilité',
-                  title: 'Parcours documenté',
-                  text: 'Conserver une continuité d’information lorsque les données sont disponibles.',
+                  title: 'Responsabilité',
+                  text: 'Favoriser des échanges professionnels et adaptés au contexte de chaque opération.',
                 },
               ].map((item) => {
-
                 const Icon = item.icon
 
                 return (
                   <div
                     key={item.title}
-                    className="rounded-[22px] border border-stone-200 bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.035)]"
+                    className="rounded-[24px] border border-stone-200 bg-white p-6 shadow-[0_12px_32px_rgba(15,23,42,0.035)] sm:p-7"
                   >
-
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0A0C0B] text-[#E1C487]">
-
-                      <Icon
-                        size={18}
-                        strokeWidth={1.7}
-                      />
-
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#0A0C0B] text-[#E1C487]">
+                      <Icon size={18} strokeWidth={1.7} />
                     </div>
 
-                    <p className="mt-5 text-[9px] font-bold uppercase tracking-[0.20em] text-[#9B793E]">
-                      {item.eyebrow}
-                    </p>
-
-                    <h3 className="mt-2 text-base font-semibold tracking-[-0.02em] text-[#0A0C0B]">
+                    <h3 className="mt-5 text-lg font-semibold tracking-[-0.02em] text-[#0A0C0B]">
                       {item.title}
                     </h3>
 
                     <p className="mt-2 text-sm leading-6 text-stone-500">
                       {item.text}
                     </p>
-
                   </div>
                 )
               })}
-
             </div>
-
           </Reveal>
-
         </div>
       </section>
 
-      {/* =========================================================
-          09 — CTA FINAL
-      ========================================================= */}
+      {/* =====================================================
+          10 — CTA FINAL
+      ===================================================== */}
 
       <section className="relative overflow-hidden bg-[#080A09] py-20 text-white sm:py-24">
-
-        <div className="pointer-events-none absolute -left-32 -top-32 h-80 w-80 rounded-full bg-[#B8873F]/[0.07] blur-3xl" />
+        <div className="pointer-events-none absolute -left-32 -top-32 h-80 w-80 rounded-full bg-[#B8873F]/[0.08] blur-3xl" />
 
         <div className="pointer-events-none absolute -bottom-40 -right-24 h-96 w-96 rounded-full bg-[#D7B66C]/[0.07] blur-3xl" />
 
         <div className="relative mx-auto max-w-4xl px-6 text-center sm:px-8">
 
           <Reveal>
-
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-[#D7B66C]/25 bg-[#D7B66C]/[0.06]">
-
               <Handshake
                 size={23}
                 className="text-[#E1C487]"
                 strokeWidth={1.7}
               />
-
             </div>
 
-            <p className="mt-7 text-[9px] font-bold uppercase tracking-[0.30em] text-[#E1C487]">
-              Opportunité d’approvisionnement
+            <p className="mt-7 text-[9px] font-bold uppercase tracking-[0.3em] text-[#E1C487]">
+              Ventes & Approvisionnement
             </p>
 
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] sm:text-4xl lg:text-[44px]">
-              Vous avez une ressource à proposer ?
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] sm:text-4xl lg:text-[46px]">
+              Une ressource.
+              <br />
+              Un besoin.
+              <br />
+              Une opportunité.
             </h2>
 
             <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-white/45">
-              Présentez votre opportunité d’approvisionnement et partagez
-              les informations disponibles afin d’ouvrir une discussion
-              autour de votre projet.
+              Parlons de votre ressource, de votre produit ou de votre besoin
+              d’approvisionnement.
             </p>
 
             <div className="mt-9 flex flex-wrap justify-center gap-3">
-
               <Link
                 href="/opportunity?profile=supplier"
                 className="group inline-flex h-12 items-center justify-center gap-2 rounded-full border border-[#D7B66C]/65 bg-gradient-to-r from-[#B8873F] via-[#D7B66C] to-[#9D7230] px-7 text-sm font-semibold text-[#15120C] shadow-[0_12px_30px_rgba(184,137,63,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105"
               >
-
                 Présenter une opportunité
 
                 <ArrowRight
                   size={16}
                   className="transition-transform duration-300 group-hover:translate-x-1"
                 />
-
               </Link>
 
               <Link
                 href="/contact"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-7 text-sm font-semibold text-white/75 backdrop-blur-sm transition-all duration-300 hover:border-[#E1C487]/35 hover:bg-white/[0.07] hover:text-[#E1C487]"
               >
-
                 Nous contacter
 
-                <ArrowUpRight
-                  size={16}
-                />
-
+                <ArrowUpRight size={16} />
               </Link>
-
             </div>
 
             <div className="mt-9 flex items-center justify-center gap-4">
-
               <span className="h-px w-10 bg-white/10" />
 
               <span className="text-[9px] font-semibold uppercase tracking-[0.22em] text-white/25">
-                Ressources · Relation · Logistique · Traçabilité
+                Local · Trading · Ressources · Flux
               </span>
 
               <span className="h-px w-10 bg-white/10" />
-
             </div>
-
           </Reveal>
-
         </div>
 
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#E1C487]/60 to-transparent" />
-
       </section>
-
     </div>
+  )
+}
+
+/* =========================================================
+   ICON FALLBACK
+========================================================= */
+
+function CircleDotIcon({
+  size = 18,
+  strokeWidth = 1.7,
+}: {
+  size?: number
+  strokeWidth?: number
+}) {
+  return (
+    <span
+      className="inline-flex items-center justify-center"
+      aria-hidden="true"
+    >
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="12"
+          cy="12"
+          r="8"
+          stroke="currentColor"
+          strokeWidth={strokeWidth}
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="2.5"
+          fill="currentColor"
+        />
+      </svg>
+    </span>
   )
 }
