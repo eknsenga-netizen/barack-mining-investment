@@ -626,7 +626,7 @@ export default function ActivityDetailClient() {
               <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
                 <div className="relative min-h-[360px]">
                   <Image
-                    src="/images/supply-value-chain.jpg"
+                    src="/images/supply-value-chain.png"
                     alt="Chaîne de valeur et transformation des ressources minières"
                     fill
                     sizes="(max-width: 1024px) 100vw, 58vw"
@@ -641,8 +641,7 @@ export default function ActivityDetailClient() {
                     </p>
 
                     <p className="mt-2 max-w-xl text-xl font-semibold tracking-[-0.03em] text-white">
-                      La ressource suit un parcours commercial différent selon
-                      son niveau de transformation.
+                      
                     </p>
                   </div>
                 </div>
